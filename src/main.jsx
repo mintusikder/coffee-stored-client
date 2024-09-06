@@ -20,6 +20,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+        loader: () => fetch('http://localhost:5000/coffee')
       },
       {
         path: "/addCoffee",
@@ -31,10 +32,12 @@ const router = createBrowserRouter([
       }
     ]
   },
-]);
+]); 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+ <div className='max-w-6xl mx-auto'>
  <RouterProvider router={router} />
+ </div>
   </StrictMode>,
 )
