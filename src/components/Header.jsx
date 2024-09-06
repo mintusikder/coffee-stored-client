@@ -9,9 +9,7 @@ const Header = () => {
       <li>
         <Link to="/addCoffee">Add Coffee</Link>
       </li>
-      <li>
-        <Link to="/updateCoffee">Update Coffee</Link>
-      </li>
+
     </>
   );
   return (

@@ -1,8 +1,9 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, setCoffees,coffees }) => {
   const { _id, chef, name, supplier, taste, category, details, url } = coffee;
 
   const handelDelete = (_id) => {
@@ -28,6 +29,8 @@ const CoffeeCard = ({ coffee }) => {
                 text: "Your file has been deleted.",
                 icon: "success",
               });
+              const remaining = coffees.filter((cof) => cof._id !== _id);
+              setCoffees(remaining);
             }
           });
       }
@@ -52,9 +55,11 @@ const CoffeeCard = ({ coffee }) => {
           <button className="btn btn-primary">
             <FaEye />
           </button>
-          <button className="btn btn-neutral">
-            <MdEdit />
-          </button>
+          <Link to={`/updateCoffee/${_id}`}>
+            <button className="btn btn-neutral">
+              <MdEdit />
+            </button>
+          </Link>
           <button onClick={() => handelDelete(_id)} className="btn btn-error">
             <MdDelete />
           </button>
