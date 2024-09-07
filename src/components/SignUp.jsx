@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const SignUp = () => {
-    const {createUser} = useContext(AuthContext)
+  const { createUser } = useContext(AuthContext);
   const handelReg = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -12,15 +12,29 @@ const SignUp = () => {
     const password = form.password.value;
     const loginUser = { name, email, password };
     console.log(loginUser);
-    createUser(email,password)
-    .then(result => {
-        const user = result.user 
-        console.log(user)
-    })
-    .catch(error =>{
-        console.error(error)
-    })
-
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        const createdAt = result.user?.metadata?.creationTime;
+        const user = { email, createdAt: createdAt };
+        fetch("http://localhost:5000/user", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.insertedId) {
+              alert("User added to database");
+            }
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -74,7 +88,12 @@ const SignUp = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Sign Up</button>
             </div>
-            <p>Already have a account <Link className="underline" to="/login">Login</Link></p>
+            <p>
+              Already have a account{" "}
+              <Link className="underline" to="/login">
+                Login
+              </Link>
+            </p>
           </form>
         </div>
       </div>
