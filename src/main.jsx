@@ -8,6 +8,9 @@ import Main from "./layout/Main";
 import Home from "./components/Home";
 import AddCoffee from "./components/AddCoffee";
 import UpdateCoffee from "./components/UpdateCoffee";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import AuthProvider from "./provider/AuthProvider";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +31,13 @@ const router = createBrowserRouter([
         element: <UpdateCoffee></UpdateCoffee>,
         loader: ({ params }) => fetch(`http://localhost:5000/coffee/${params.id}`),
       },
+      {
+        path: "/signUp",
+        element: <SignUp></SignUp>,
+      },    {
+        path: "/login",
+        element: <Login></Login>,
+      },
     ],
   },
 ]);
@@ -35,7 +45,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <div className="max-w-6xl mx-auto">
-      <RouterProvider router={router} />
+     <AuthProvider>
+     <RouterProvider router={router} />
+     </AuthProvider>
     </div>
   </StrictMode>
 );
