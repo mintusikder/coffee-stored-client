@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+
 const SignUp = () => {
+    const {createUser} = useContext(AuthContext)
   const handelReg = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -7,12 +12,21 @@ const SignUp = () => {
     const password = form.password.value;
     const loginUser = { name, email, password };
     console.log(loginUser);
+    createUser(email,password)
+    .then(result => {
+        const user = result.user 
+        console.log(user)
+    })
+    .catch(error =>{
+        console.error(error)
+    })
+
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Registration now!</h1>
+          <h1 className="text-5xl font-bold">SignUp now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
@@ -58,8 +72,9 @@ const SignUp = () => {
               />
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Registration</button>
+              <button className="btn btn-primary">Sign Up</button>
             </div>
+            <p>Already have a account <Link className="underline" to="/login">Login</Link></p>
           </form>
         </div>
       </div>
