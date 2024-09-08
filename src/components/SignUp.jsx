@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
+import axios from "axios";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
@@ -17,24 +18,30 @@ const SignUp = () => {
         console.log(result.user);
         const createdAt = result.user?.metadata?.creationTime;
         const user = { email, createdAt: createdAt };
-        fetch("http://localhost:5000/user", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(user),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data.insertedId) {
-              alert("User added to database");
-            }
-          });
+
+        //using axios
+        axios.post("http://localhost:5000/user", user)
+        .then(data => console.log(data.data))
+        //using fetch
+
+        // fetch("http://localhost:5000/user", {
+        //   method: "POST",
+        //   headers: {
+        //     "content-type": "application/json",
+        //   },
+        //   body: JSON.stringify(user),
+        // })
+          // .then((res) => res.json())
+          // .then((data) => {
+          //   console.log(data);
+          //   if (data.insertedId) {
+          //     alert("User added to database");
+          //   }
+          // });
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      // .catch((error) => {
+      //   console.error(error);
+      // });
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
